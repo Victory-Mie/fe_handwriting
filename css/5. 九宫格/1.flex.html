@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flex实现正方形九宫格</title>
+</head>
+
+<body>
+    <div class="box">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+        </ul>
+    </div>
+</body>
+<style>
+    .box {
+        /* 设置一定的宽高 */
+        width: 500px;
+        height: 500px;
+        margin: 0 auto;
+    }
+
+    ul {
+        /* 固定宽高 */
+        width: 100%;
+        height: 100%;
+
+        /* 弹性布局 */
+        display: flex;
+        /*  ps1：ul内li之间没有发生 margin 重叠是因为使用了 display: flex！
+            ps2：注意，这与BFC无关，使flex本身的特性 */
+
+        /* 设置为子元素可换行 */
+        flex-wrap: wrap;
+
+        /* 去除列表样式 */
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    li {
+        /* 设置格子间距：33.33% - 两倍的margin（上下左右的margin） */
+        width: calc(33.33% - 10px);
+        height: calc(33.33% - 10px);
+        margin: 5px;
+
+        background: skyblue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+    }
+</style>
+
+</html>

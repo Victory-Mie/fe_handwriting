@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="round"></div>
+    <div class="semi-round"></div>
+</body>
+<style>
+    .round {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: conic-gradient(#3498db 0deg 360deg);
+    }
+
+    .semi-round {
+        background-color: yellow;
+        width: 200px;
+        height: 100px;
+        /* 当圆角为 200px 时，实际上已经超出了元素的高度。因此，200px 不适合直接用百分比来表示，如果强行使用百分比，会导致圆角显示不正常。 */
+        border-radius: 0 0 200px 200px;
+
+    }
+</style>
+
+</html>

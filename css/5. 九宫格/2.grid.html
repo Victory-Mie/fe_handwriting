@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flex实现正方形九宫格</title>
+</head>
+
+<body>
+    <div class="box">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+        </ul>
+    </div>
+</body>
+<style>
+    .box {
+        /* 设置一定的宽高 */
+        width: 500px;
+        height: 500px;
+        margin: 0 auto;
+    }
+
+    ul {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 30% 30% 30%;
+        /* grid-template-rows: 30% 30% 30%; */
+        grid-gap: 5%;
+
+        /* 去除列表样式 */
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    li {
+        /* （和布局无关，只是设置li的外观样式） */
+        background: skyblue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+    }
+</style>
+
+</html>

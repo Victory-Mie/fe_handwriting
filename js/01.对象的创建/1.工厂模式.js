@@ -6,6 +6,7 @@ function createPerson(name) {
   };
   return p;
 }
+
 var person1 = createPerson("Mary");
 person1.getName(); //Mary
 

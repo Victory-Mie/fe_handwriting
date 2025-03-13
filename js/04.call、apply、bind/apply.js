@@ -13,6 +13,7 @@ Function.prototype.myApply = function (context) {
   return result;
 };
 
+// test
 var obj = {
   value: "vortesnail",
 };

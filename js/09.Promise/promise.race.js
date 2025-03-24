@@ -16,26 +16,26 @@ function myPromiseRace(iterable) {
  * 测试
  */
 function red() {
-  return { code: 200, data: "red" };
-}
-function green() {
-  return { code: 200, data: "green" };
-}
-function yellow() {
-  return { code: 200, data: "yellow" };
-}
-const light = (time, cb) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const result = cb();
-      if (result.code === 200) {
-        resolve(result.data);
-      } else {
-        reject(result.data);
-      }
-    }, time);
-  });
-};
+    return { code: 200, data: "red" };
+  }
+  function green() {
+    return { code: 200, data: "green" };
+  }
+  function yellow() {
+    return { code: 200, data: "yellow" };
+  }
+  const light = (time, cb) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const result = cb();
+        if (result.code === 200) {
+          resolve(result.data);
+        } else {
+          reject(result.data);
+        }
+      }, time);
+    });
+  };
 const p1 = light(3000, red);
 const p2 = light(2000, yellow);
 const p3 = light(1000, green);

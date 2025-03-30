@@ -1,3 +1,18 @@
+//工厂模式
+function createObject(attr) {
+  let o = new Object();
+  o.attr = attr;
+  o.getAttr = function () {
+    console.log(this.attr);
+  };
+  return o;
+}
+// 缺点：
+// 无法识别对象类型，全部都是普通Object
+// 每个实例的方法都是独立的，无法共享
+
+/* ----------------------------*/
+//example：
 function createPerson(name) {
   var p = new Object();
   p.name = name;

@@ -1,3 +1,19 @@
+// 动态原型
+function Obj(attr) {
+  this.attr = attr;
+  if (!Obj.prototype.getAttr) {
+    this.getAttr = function () {
+      console.log(this.attr);
+    };
+  }
+}
+// 优点：
+// 确保原型属性只被设置一次。
+// 代码比组合模式封装性更好
+// 缺点：
+// 不能用对象字面量重写原型
+
+/*--------------*/
 // 在构造函数内部设置原型属性，确保原型属性只被设置一次。（其实组合模式的原型属性也只设置一次）
 // 注意：不能用对象字面量重写原型。建议手写apply后再回来看一遍原因：
 // https://github.com/mqyqingfeng/Blog/issues/15

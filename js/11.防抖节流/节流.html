@@ -1,0 +1,141 @@
+<!-- 
+节流
+定义：事件持续触发时，每隔一段时间，只执行一次。
+就像技能CD，技能在CD期间不能再次触发。
+应用场景：
+1. 鼠标不断点击触发，mousedown(单位时间内只触发一次)
+2. 监听滚动事件，比如是否滑到底部自动加载更多，用throttle来判断
+
+参考：https://github.com/mqyqingfeng/Blog/issues/26
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn1">节流-时间戳版-有头无尾</button>
+    <button id="btn2">节流-定时器版-无头有尾</button>
+    <button id="btn3">节流-结合版-有头有尾</button>
+
+
+</body>
+
+</html>
+
+<script>
+    function send() {
+        console.log('执行', this);
+    }
+    const btn1 = document.getElementById("btn1");
+    btn1.addEventListener('click', throttle1(send, 2000))
+
+    const btn2 = document.getElementById("btn2");
+    btn2.addEventListener('click', throttle2(send, 2000))
+
+    const btn3 = document.getElementById("btn3");
+    btn3.addEventListener('click', throttle3(send, 2000))
+
+    // 时间戳版：立即执行，停止触发后没有办法再次执行
+    function throttle1(callback, delay) {
+        let preTime = 0;
+        return function () {
+            // 当前时间距离上次触发已经过了delay的时间，执行回调，更新上次触发时间
+            if (Date.now() - preTime > delay) {
+                callback.call(this, ...arguments);
+                preTime = Date.now()
+            }
+        }
+    }
+
+    // 定时器版：n秒后第一次执行，停止触发后依然会再一次执行一次
+    function throttle2(callback, delay) {
+        let timer = null;
+        let preTime = 0;
+        return function () {
+            // 在第一次触发设定setTimeout，延迟delay秒后执行回调
+            // 之后每次触发回调时，如果已经存在定时器，则不会执行
+            if (!timer) {
+                timer = setTimeout(() => {
+                    callback.call(this, ...arguments);
+                    timer = null;
+                }, delay)
+            }
+        }
+    }
+
+    // 结合版：n秒内第一次执行，停止触发后依然会再一次执行一次
+    function throttle3(callback, delay) {
+        let timer = null;
+        let preTime = 0;
+        // 记录当前函数触发的上下文和参数
+        let preThis = null;
+        let preArgs = null;
+
+
+        const later = function () {
+            preTime = Date.now();
+            timer = null;
+            callback.call(preThis, ...preArgs); // 这里使用的是最近一次触发时保存的参数
+        };
+
+
+        return function () {
+            const nowTime = Date.now();
+            const remaining = delay - (nowTime - preTime);
+
+            // 记录当前函数触发的上下文和参数,每次触发都更新
+            preThis = this;
+            preArgs = arguments;
+
+            // 距离上次触发已经过了delay的时间，或者第一次触发，清除计时器并立刻执行回调，更新上次触发时间
+            // 作用：保证第一次触发会被执行
+            if (remaining <= 0 || remaining > delay) {
+                if (timer) {
+                    clearTimeout(timer);
+                    timer = null;
+                }
+                preTime = Date.now();
+                callback.call(preThis, ...preArgs);
+            } else {
+                // 还在触发冷却期，且没有设置定时器，设置定时器
+                // 作用：保证了最后一次调用也会被执行
+                if (!timer) {
+                    timer = setTimeout(later, remaining)
+                }
+            }
+        }
+    }
+
+    const obj = {
+        value: 0,
+        logValue: function (num) {
+            console.log(`this.value: ${this.value}, num: ${num}`);
+        },
+    };
+
+    // 创建一个节流函数，每 1000ms 触发一次
+    const throttledLog = throttle3(obj.logValue, 1000);
+
+    // 连续调用 3 次，每次传递不同的参数
+    throttledLog(1);
+    //对于 throttledLog(1) ，由于此时没有定时器，会立即执行回调。
+    throttledLog(2);
+    //对于 throttledLog(2) ，由于此时没有定时器，会设置一个定时器，准备在冷却期结束后执行。
+    throttledLog(3);
+    //对于 throttledLog(3) ，由于此时已经有定时器，所以只会更新 preThis 和 preArgs。
+    // 当定时器触发时，会执行 later 函数，此时使用的是最后一次调用时保存的参数，也就是 3
+
+    // 输出：
+    //this.value: undefined, num: 1
+    //this.value: undefined, num: 3
+
+    // this.value 是 undefined 的原因：
+    // 当我们调用 throttledLog(1) 时，实际上是在全局上下文中调用的，而不是作为 obj 的方法调用的。
+    // 所以 this 不指向 obj ，而是指向全局对象
+
+</script>

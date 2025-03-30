@@ -1,0 +1,61 @@
+<!-- 
+防抖
+定义：事件被触发n秒后再执行回调，如果在这期间再次被触发则重新计时。
+就像lol里的回城，如果在回城时间内再次被触发则重新计时。
+
+应用场景：
+1. 手机号、邮箱验证输入检测(change、input、blur、keyup等事件触发，每次键入都会触发)
+2. 提交按钮多次点击(click事件触发)
+3. 窗口resize事件(浏览器窗口resize事件触发)
+4. 搜索框输入查询(输入框输入事件触发)
+5. 监听鼠标移动事件(mousemove事件触发)
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">防抖</button>
+</body>
+
+</html>
+
+<script>
+    function send() {
+        console.log('执行', this);
+    }
+    const btn = document.getElementById("btn");
+    btn.addEventListener('click', debounce(send, 2000))
+
+    // // 防抖函数
+    // function debounce(callback, delay) {
+    //     let timer = null;
+
+    //     return function () {
+    //         let args = arguments; // 保存参数
+    //         if (timer) clearTimeout(timer);
+    //         timer = setTimeout(() => { //箭头函数没有this，这里的this依旧指向定义时外层的btn对象
+    //             callback.call(this, ...args);
+    //         }, delay)
+    //     }
+    // }
+
+    function debounce(callback, delay) {
+        let timer = null;
+        return function () {
+            if (timer) clearTimeout(timer);
+            let arr = arguments;
+            timer = setTimeout(() => {
+                callback.call(this, arguments)
+            }, delay)
+        }
+    }
+
+    // 输出：“ 执行 <button id=​"btn">​防抖​</button>​”
+
+</script>

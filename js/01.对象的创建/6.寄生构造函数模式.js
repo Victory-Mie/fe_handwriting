@@ -1,3 +1,12 @@
+function Obj() {
+  let o = new Obj();
+  o.attr = attr;
+  o.getAttr = function () {
+    console.log(this.attr);
+  };
+  return o;
+}
+
 // 寄生-构造函数-模式,即寄生在构造函数的一种方法。
 // 也就是说打着构造函数的幌子挂羊头卖狗肉。
 // 类似于工厂模式，

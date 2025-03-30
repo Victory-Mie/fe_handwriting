@@ -5,11 +5,12 @@ function myPromiseAll(iterable) {
     let count = 0;
 
     let len = iterable.length;
-    if (!len) {// 空数组
+    if (!len) {
+      // 空数组
       resolve(res);
     }
-
-    for (const [i, p] of iterable.entries()) {//entries() 方法返回一个数组的迭代对象，该对象包含数组的键值对 (key/value)
+    for (const [i, p] of iterable.entries()) {
+      //entries() 方法返回一个数组的迭代对象，该对象包含数组的键值对 (key/value)
       Promise.resolve(p).then(
         (val) => {
           res[i] = val;

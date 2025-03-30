@@ -1,3 +1,17 @@
+// 构造函数模式
+function Obj(attr) {
+  this.attr = attr;
+  this.getAttr = function () {
+    console.log(this.attr);
+  };
+}
+// 优点：
+// 可以识别类型
+// 缺点：
+// 每个实例的方法都独立，无法共享方法
+
+/*-----------------------------------*/
+// example
 function Person(name) {
   this.name = name;
   // 实例属性：每个实例都会创建新的数组

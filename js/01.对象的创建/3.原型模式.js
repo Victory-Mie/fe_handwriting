@@ -1,3 +1,20 @@
+// 原型模式
+function Obj() {}
+Obj.prototype = {
+  attr: "undefined",
+  getAttr: function () {
+    console.log(this.attr);
+  },
+};
+
+// 优点：
+// 方法共享
+// 缺点：
+// 所有属性共享
+// 无法在创建时传递参数
+
+/*-------------------------------------------------------*/
+// example：
 // 利用了 JavaScript 中的原型链特性。
 // 它可以将 公共的属性 和 方法 放在原型对象上，从而实现代码的复用。
 function Person() {}

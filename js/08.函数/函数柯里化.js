@@ -24,10 +24,10 @@ function Fn_init(a, b, c) {
 // }
 
 function curryization(fn, params) {
-  let len = fn.length; // 函数参数长度
+  let len = fn.length;
   params = params || [];
   return function (...args) {
-    let newArgs = params.concat(args);
+    const newArgs = params.concat(args);
     if (newArgs.length < len) {
       return curryization.call(this, fn, newArgs);
     } else {

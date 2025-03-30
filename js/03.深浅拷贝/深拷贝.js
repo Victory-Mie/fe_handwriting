@@ -1,8 +1,8 @@
 function deepClone(target, map = new WeakMap()) {
-  // 处理null和非引用类型
+  // 处理null和非引用类型。如果不是的话直接返回这个值（已经拷贝到最深处了）。
   if (target === null || typeof target !== "object") return target;
 
-  // 处理数组类型
+  // 创建拷贝变量，处理数组类型和普通对象类型。
   let result =
     Array.isArray(target) ||
     Object.prototype.toString.call(target) === "[object Array]"
@@ -13,14 +13,16 @@ function deepClone(target, map = new WeakMap()) {
   if (map.get(target)) {
     return map.get(target);
   }
-  map.set(target, copy);
+  map.set(target, result);
 
   for (const key in target) {
+    // for in 用于遍历对象的可枚举属性，包括继承的属性。返回的是属性名（键）。
+    // 确保key是target的属性，而不是target原型链上的属性
     if (target.hasOwnProperty(key)) {
-      copy[key] = deepClone(target[key], map);
+      result[key] = deepClone(target[key], map); //递归拷贝，一直拷贝到最深处
     }
   }
-  return copy;
+  return result;
 }
 
 // test

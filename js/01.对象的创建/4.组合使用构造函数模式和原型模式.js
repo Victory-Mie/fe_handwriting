@@ -1,3 +1,15 @@
+// 组合模式
+function Obj(attr) {
+  this.attr = attr;
+}
+Obj.prototype.getAttr = function () {
+  console.log(this.attr);
+};
+// 缺点：
+// 代码复杂
+
+/*------------------------------------*/
+// example：
 // 构造函数 用于初始化 实例属性
 // 原型 用于定义共享的 方法
 function Person(name, age) {

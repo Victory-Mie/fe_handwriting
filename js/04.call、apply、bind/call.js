@@ -1,4 +1,5 @@
 Function.prototype.myCall = function (context) {
+  // 调用myCall方法的必须是function类型
   if (typeof this !== "function") {
     throw new Error("Wrong type!");
   }

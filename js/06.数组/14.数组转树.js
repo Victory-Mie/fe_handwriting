@@ -32,28 +32,42 @@ let input = [
 ];
 
 const arrToTree = (arr, config = {}) => {
+  // const res = [];
+
+  // const { id = "id", parentId = "parentId", children = "children" } = config;
+
+  // // 第一步：创建节点映射表，便于快速查找节点
+  // const map = new Map();
+
+  // // 为每个节点创建一个副本，并初始化children数组
+  // arr.forEach((node) => {
+  //   map.set(node[id], { ...node, [children]: [] });
+  // });
+
+  // // 第二步：构建树形结构
+  // arr.forEach((node) => {
+  //   const nodeId = node[id];
+  //   const parent = map.get(node[parentId]);
+  //   // 如果找到父节点，将当前节点添加到父节点的children数组中
+  //   if (parent) {
+  //     parent[children].push(map.get(nodeId));
+  //   } else {
+  //     // 如果没有找到父节点，说明当前节点是根节点，直接添加到结果数组
+  //     res.push(map.get(nodeId));
+  //   }
+  // });
+  // return res;
   const res = [];
-
-  const { id = "id", parentId = "parentId", children = "children" } = config;
-
-  // 第一步：创建节点映射表，便于快速查找节点
-  const map = new Map();
-
-  // 为每个节点创建一个副本，并初始化children数组
-  arr.forEach((node) => {
-    map.set(node[id], { ...node, [children]: [] });
+  const map = {};
+  arr.forEach((item) => {
+    if (!item.children) item.children = [];
+    map[item.id] = item;
   });
-
-  // 第二步：构建树形结构
-  arr.forEach((node) => {
-    const nodeId = node[id];
-    const parent = map.get(node[parentId]);
-    // 如果找到父节点，将当前节点添加到父节点的children数组中
-    if (parent) {
-      parent[children].push(map.get(nodeId));
+  arr.forEach((item) => {
+    if (item.parentId) {
+      map[item.parentId].children.push(item);
     } else {
-      // 如果没有找到父节点，说明当前节点是根节点，直接添加到结果数组
-      res.push(map.get(nodeId));
+      res.push(item);
     }
   });
   return res;
